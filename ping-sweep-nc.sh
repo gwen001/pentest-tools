@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage: "$0" <ip> <start> <end> [<port>]"
+    if [ -n "$1" ] ; then
+	echo "Error: "$1"!"
+    fi
+    exit
+}
+
+if [ $# -lt 3 ] || [ $# -gt 4 ] ; then
+    usage
+fi
+
+ip=$1
+start=$2
+end=$3
+
+if [ $# -eq 4 ] ; then
+    port=$4
+else
+    port=80
+fi
+
+for i in $(seq $start $end); do
+  nc -n -v -z -w 1 $ip"."$i $port 2>&1 |grep open
+done
+
+exit

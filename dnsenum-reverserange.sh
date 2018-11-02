@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage: "$0" <range_file> <domain> [<dns_server>]"
+    if [ -n "$1" ] ; then
+	echo "Error: "$1"!"
+    fi
+    exit
+}
+
+if [ $# -lt 2 ] || [ $# -gt 3 ] ; then
+    usage
+fi
+
+file=$1
+domain=$2
+dnsserver=$3
+
+for ip in $(cat $file) ; do
+	echo $ip
+	./dnsenum-reverse.sh $ip $domain $dnsserver
+done
+
+exit

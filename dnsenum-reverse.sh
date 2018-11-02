@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage: "$0" <ip> <domain> [<dns_server>]"
+    if [ -n "$1" ] ; then
+	echo "Error: "$1"!"
+    fi
+    exit
+}
+
+if [ $# -lt 2 ] || [ $# -gt 3 ] ; then
+    usage
+fi
+
+ip=$1
+domain=$2
+dnsserver=$3
+n=0
+
+for i in $(seq 0 254) ; do
+	tmp=`host $ip"."$i $dnsserver | egrep $domain | cut -d ' ' -f 1,5`
+	if [ -n "$tmp" ] ; then
+		echo $tmp
+		n=$[$n+1]
+	fi
+done
+
+if [ $n -eq 0 ] ; then
+	echo "Nothing found."
+fi
+
+exit

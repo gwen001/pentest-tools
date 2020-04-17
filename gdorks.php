@@ -30,7 +30,18 @@ $t_dorks = array(
 	'site:__SITE__ inurl:password',
 	'site:__SITE__ allinurl:@__SITE__',
 	'site:__SITE__ intitle:"about atlassian bitbucket"',
+	'site:ideone.com __SITE__',
+	'site:codebeautify.org __SITE__',
+	'site:codeshare.io __SITE__',
+	'site:codepen.io __SITE__',
+	'site:repl.it __SITE__',
+	'site:justpaste.it __SITE__',
+	'site:pastebin.com __SITE__',
+	'site:jsfiddle.net __SITE__',
 	'site:trello.com __SITE__',
+
+site:http://ideone.com | site:http://codebeautify.org | site:http://codeshare.io | site:http://codepen.io | site:http://repl.it | site:http://justpaste.it | site:http://pastebin.com | site:http://jsfiddle.net | site:http://trello.com "$"
+
 );
 
 

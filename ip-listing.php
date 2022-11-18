@@ -42,7 +42,7 @@ function subnet( $ip, $netmask )
 	$b_max_host = str_pad( substr($b_network, 0, $netmask), 32, 1, STR_PAD_RIGHT );
 	$max_host = bin2ip( $b_max_host );
 	//echo 'MAX_HOST= '.$max_host.' -> '.$b_max_host."\n";
-	
+
 	return [$min_host,$max_host];
 }
 
@@ -68,7 +68,7 @@ if( strstr($_SERVER['argv'][1],'/') )
 	if( $_SERVER['argc'] < 2 || $_SERVER['argc'] > 3 ) {
 		usage();
 	}
-	
+
 	list($start,$mask) = explode( '/', $_SERVER['argv'][1] );
 	$mask = (int)$mask;
 	$step = isset($_SERVER['argv'][2]) ? (int)$_SERVER['argv'][2] : 1;
@@ -81,15 +81,15 @@ else
 	if( $_SERVER['argc'] < 3 || $_SERVER['argc'] > 4 ) {
 		usage();
 	}
-	
+
 	if( !isIp($_SERVER['argv'][1]) ) {
 		usage($_SERVER['argv'][1].' is not a valid ip address');
 	}
-	
+
 	if( !isIp($_SERVER['argv'][2]) ) {
 		usage($_SERVER['argv'][2].' is not a valid ip address');
 	}
-	
+
 	$reverse = false;
 	$start = ip2long( $_SERVER['argv'][1] );
 	$end = ip2long( $_SERVER['argv'][2] );

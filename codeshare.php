@@ -57,7 +57,7 @@ function create_ids( $q )
     $t_ids = [];
     $t_alphabet = 'abcdefghijklmnupqrstovwxyzABCDEFGHIJKLMNOPRSTUVWXYZ0123456789';
     $l = strlen($t_alphabet) - 1;
-    
+
     for( $i=0 ; $i<$q ; $i++ ) {
         $id = '';
         for( $j=0 ; $j<$len_id ; $j++ ) {
@@ -76,7 +76,7 @@ function test_single( $_string )
     $url = 'https://codeshare.io/'.$id[0];
     //echo $url."\n";
     //exit();
-    
+
     $c = curl_init();
 	curl_setopt( $c, CURLOPT_URL, $url );
 	curl_setopt( $c, CURLOPT_CONNECTTIMEOUT, 3 );
@@ -90,7 +90,7 @@ function test_single( $_string )
 	//exit();
 
     $url = $url ." (".strlen($datas).")\n";
-    
+
 	/*if( $t_infos['http_code'] != 200 ) {
     //output( $url, 'light_grey' );
         ;
@@ -124,7 +124,7 @@ function test_ids( $_string )
 		if( $n_child < $max_child )
 		{
 			$pid = pcntl_fork();
-			
+
 			if( $pid == -1 ) {
 				// fork error
 			} elseif( $pid ) {
@@ -144,7 +144,7 @@ function test_ids( $_string )
 
 		usleep( 5000 );
 	}
-	
+
 	while( $n_child ) {
 		// surely leave the loop please :)
 		sleep( 1 );
@@ -163,7 +163,7 @@ function signal_handler( $signal, $pid=null, $status=null )
 	if( !$pid ){
 		$pid = pcntl_waitpid( -1, $status, WNOHANG );
 	}
-	
+
 	// Get all exited children
 	while( $pid > 0 )
 	{
@@ -182,10 +182,10 @@ function signal_handler( $signal, $pid=null, $status=null )
 			// Store it to handle when the parent process is ready
 			$t_signal_queue[$pid] = $status;
 		}
-		
+
 		$pid = pcntl_waitpid( -1, $status, WNOHANG );
 	}
-	
+
 	return true;
 }
 
@@ -195,7 +195,7 @@ function usage( $err=null ) {
 	echo "Options:\n";
 	echo "\t-s\tstring to search\n";
 	echo "\t-t\tthreads, default 10\n";
-	echo "\nRecommended: php codeshare.php -s api_key -t 50";
+	echo "\nRecommended: php codeshare.php -s 'tesla.com' -t 50";
 	echo "\n";
 	if( $err ) {
 		echo 'Error: '.$err."!\n";

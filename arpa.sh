@@ -36,11 +36,11 @@ arpa=$(echo $arpa | sed "s/WWW/ /g")
 for a in $arpa ; do
     str=$(echo "$a" | awk -F "YYY" '{print $1}')
     ip=$(echo "$str" | awk -F "." '{print $4"."$3"."$2"."$1}')
-    #echo $ip
-    dom=$(echo "$a" | awk -F "YYY" '{print $2}')
-    dom=${dom:0:-1}
+    # dom=$(echo "$a" | awk -F "YYY" '{print $2}')
+    # dom=${dom:0:-1}
     #echo $dom
-    echo $ip" "$dom
+    echo $ip
+    # echo $ip" "$dom
 done
 
 exit

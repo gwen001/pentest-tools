@@ -3,7 +3,7 @@
 function usage() {
     echo "Usage: "$0" <range_file> <domain> [<dns_server>]"
     if [ -n "$1" ] ; then
-	echo "Error: "$1"!"
+	    echo "Error: "$1"!"
     fi
     exit
 }

@@ -5,7 +5,7 @@ source myutils.sh
 
 
 function usage() {
-    echo "Usage: "$0" <ip start> <ip end> <wordlist> [<port>] [<force ssl>]"
+    echo "Usage: "$0" <start ip> <end ip> <wordlist> [<port>] [<force ssl>]"
     if [ -n "$1" ] ; then
         echo "Error: "$1"!"
     fi
@@ -18,10 +18,10 @@ function testip() {
 
     # 0.0.0.0/0.255.255.255 , 10.0.0.0/10.255.255.255 , 172.16.0.0/172.31.255.255 , 192.168.0.0/192.168.255.255
     if ( [ $i -ge 0 ] && [ $i -le 16777215 ] ) || ( [ $i -ge 167772160 ] && [ $i -le 184549375 ] ) || ( [ $i -ge 2886729728 ] && [ $i -le 2887778303 ] ) || ( [ $i -ge 3232235520 ] && [ $i -le 3232301055 ] ) ; then
-	echo 0
-	return
+        echo 0
+        return
     fi
-    
+
     ip2=$(echo $ip | tr '.' ' ')
     for n in $ip2 ; do
 	if [ $n -eq 0 ] || [ $n -eq 254 ] || [ $n -eq 255 ] ; then
@@ -29,7 +29,7 @@ function testip() {
 	    return
 	fi
     done
-    
+
     echo 1
     return
 }
@@ -42,7 +42,7 @@ fi
 wordlist=$3
 
 if [ ! -f $wordlist ] ; then
-        usage "File not found!"
+    usage "File not found!"
 fi
 
 if [ $# -ge 4 ] ; then
@@ -74,54 +74,57 @@ if [ $end_n -lt $start_n ] ; then
 fi
 
 i=$(( $start_n - 1 ))
-coption="-s --connect-timeout 2"
 
 while [ $i -lt $end_n ] ; do
     i=$(( $i + 1 ))
     ip=`dec2ip $i`
     isvalid=$(testip $i $ip)
     #isvalid=1
-    
+
     if [ $isvalid -eq 0 ] ; then
-	continue
+	    continue
     fi
-        
+
     for p in $tport ; do
-	if [ $ssl -eq 0 ] && [ ! $p -eq 443 ] ; then
-	    proto="http"
-	    co=$coption
-	else
-	    proto="https"
-	    co="$coption --insecure"
-	fi
-	
-	url="$proto://$ip:$p"
-	output=`curl $co $url`
-	res=`echo $output | grep 'html'`
-	echo "Connecting: $url"
-	
-	if [ ! -n "$res" ] ; then
-	    _print "Skipping..."
-	    echo
-	else
-            for w in $(cat $wordlist) ; do	    
-		url="http://$ip:$p/$w"
-		output=`curl $co -I $url`
-		res=`echo $output | grep 'HTTP/1.1 200 OK'`
-		_print "Testing: $url"
-		
-		if [ -n "$res" ] ; then
-		    _print " FOUND!" GREEN
-		fi
-		
-		echo
-	    done
-	fi
+        if [ "$ssl" -eq "0" ] && [ ! "$p" -eq "443" ] ; then
+            proto="http"
+        else
+            proto="https"
+        fi
+
+        if [ "$p" -eq "80" ] || [ "$p" -eq "443" ] ; then
+            url="$proto://$ip"
+        else
+            url="$proto://$ip:$p"
+        fi
+
+        # echo $url
+        output=`curl -k -s --connect-timeout 2 -I $url`
+        res=`echo $output | grep 'HTTP/1.1 200 OK'`
+        echo "Connecting: $url"
+
+        if [ ! -n "$res" ] ; then
+            _print "Skipping..."
+            echo
+        else
+            for w in $(cat $wordlist) ; do
+                w_url="$url/$w"
+                output=`curl -k -s --connect-timeout 2 -I $w_url`
+                res=`echo $output | grep 'HTTP/1.1 200 OK'`
+                _print "Testing: $w_url"
+
+                if [ -n "$res" ] ; then
+                    _print " FOUND!" GREEN
+                fi
+
+                echo
+            done
+        fi
     done
-    
+
     echo
 done
-  
+
 
 exit
 

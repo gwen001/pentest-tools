@@ -18,7 +18,7 @@ end=$3
 n=0
 
 for i in $(seq $start $end); do
-    tmp=`ping -c 1 $ip"."$i | grep 'bytes from' | cut -d ' ' -f 4 | cut -d ':' -f1 &`
+    tmp=`ping -t 3 -c 1 $ip"."$i | grep 'bytes from' | cut -d ' ' -f 4 | cut -d ':' -f1 &`
     if [ -n "$tmp" ] ; then
 		echo $tmp
 		n=$[$n+1]
@@ -27,4 +27,3 @@ done
 
 echo
 echo $n" hosts are up."
-exit

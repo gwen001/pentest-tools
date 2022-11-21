@@ -1,0 +1,12 @@
+argparse
+mmh3
+requests
+shodan
+tldextract
+termcolor
+netaddr
+colored
+goop
+lockfile
+pythonwhois
+queuelib

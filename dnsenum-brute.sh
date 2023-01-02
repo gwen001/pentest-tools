@@ -1,9 +1,9 @@
 #!/bin/bash
 
 function usage() {
-    echo "Usage: "$0" <domain> <subdomain_file> [<dns_server>]" 
+    echo "Usage: "$0" <domain> <wordlist> [<dns_server>]"
     if [ -n "$1" ] ; then
-	echo "Error: "$1"!"
+	    echo "Error: "$1"!"
     fi
     exit
 }

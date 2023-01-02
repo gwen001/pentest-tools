@@ -1,18 +1,26 @@
 <?php
 
 function usage( $err=null ) {
-  echo 'Usage: '.$_SERVER['argv'][0]." <search>\n";
-  if( $err ) {
-    echo 'Error: '.$err."\n";
-  }
-  exit();
+    echo 'Usage: '.$_SERVER['argv'][0]." <search> [shodan_api_key]\n";
+    if( $err ) {
+        echo 'Error: '.$err."\n";
+    }
+    exit();
 }
 
-if( $_SERVER['argc'] != 2 ) {
-  usage();
+if( $_SERVER['argc']<2 || $_SERVER['argc']>3 ) {
+    usage();
 }
 
-$_api_key = 'xxxxxxxxxxxxxxxxxx';
+if( $_SERVER['argc'] == 3 ) {
+    $_api_key = trim($_SERVER['argv'][2]);
+} else {
+    $_api_key = getenv('SHODAN_KEY');
+}
+if( !$_api_key ) {
+    usage('API key nmot found');
+}
+
 $search = urlencode( $_SERVER['argv'][1] );
 $page = 1;
 $run = true;
@@ -24,13 +32,13 @@ do
 {
 	$url = 'https://api.shodan.io/shodan/host/search?query='.$search.'&page='.$page.'&key='.$_api_key;
 	echo $url."\n";
-	$c = file_get_contents( $url );
+	$c = @file_get_contents( $url );
 	if( !$c ) {
-		exit( "Err: cannot connect to Shodan!" );
+		exit( "Err: cannot connect to Shodan, check your API key!\n" );
 	}
-	
+
 	$t_json = json_decode( $c, true );
-	
+
 	if( !count($t_json['matches']) ) {
 		$run = false;
 	} else {

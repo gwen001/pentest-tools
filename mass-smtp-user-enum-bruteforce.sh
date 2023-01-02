@@ -1,15 +1,12 @@
 #!/bin/bash
 
 
-source myutils.sh
-
-
 t_command="VRFY RCPT EXPN";
 
 function usage() {
     echo "Usage: "$0" <ip file> <wordlist>"
     if [ -n "$1" ] ; then
-	echo "Error: "$1"!"
+    	echo "Error: "$1"!"
     fi
     exit
 }

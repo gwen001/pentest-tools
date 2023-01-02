@@ -44,6 +44,7 @@ for( $i=0 ; $i<$how_much ; $i++ ) {
 		$ip .= ':'.$t_port[rand(0,$cnt_port)];
 	}
 	$t_ip[] = $ip;
+    echo $ip."\n";
 }
 /*
 for( $i=0 ; $i<$how_much ; $i++ ) {
@@ -56,8 +57,9 @@ for( $i=0 ; $i<$how_much ; $i++ ) {
 	$t_ip[] = $ip;
 }
 */
+
 //var_dump( $t_ip );
-file_put_contents( $file, implode("\n",$t_ip) );
+// file_put_contents( $file, implode("\n",$t_ip) );
 exit();
 
 ?>

@@ -16,7 +16,7 @@ function usage() {
 function test() {
   local url=$1
   local wordlist=$2
-  
+
   for w in $(cat $2) ; do
     read -t 0.1 -s -r -n 1
 
@@ -25,14 +25,14 @@ function test() {
 	echo "Skipping directory..."
 	return
     fi
-    
+
     ww=`echo $w | tr "/" "-"`
     current=$url"/"$ww
      echo
     _print "Testing: "$current
     res=`davtest -url $current 2>/dev/null`
     found=`echo $res | grep SUCCEED | wc -w`
-     
+
     if [ ! $found -eq 0 ] ; then
       _print " FOUND!" RED
       test $current $wordlist

@@ -27,4 +27,3 @@ done
 
 echo
 echo $n" hosts are up."
-exit
